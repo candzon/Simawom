@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>SIMaWom - @yield('title', 'Dashboard')</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ asset('image/SIMaWom-nobg.png') }}" type="image/x-icon">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
     </script>
@@ -14,13 +15,10 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
 
-    </script>
-
-    <!-- TinyMCE API  -->
-    <script src="https://cdn.tiny.cloud/1/me74ez3eo24diljzh2ctwuraec8x74gqi2xa7pk13u6v9thm/tinymce/7/tinymce.min.js"
-        referrerpolicy="origin"></script>
 
     <style>
         /* Single Selection Styles */
@@ -78,18 +76,150 @@
     </style>
 
     <script>
-        tinymce.init({
-            selector: '.tinymce-editor',
-            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
-            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-            height: 400,
-            menubar: false,
-            branding: false,
-            statusbar: false
-        });
+        function openEditModal(id) {
+            document.getElementById('editModal' + id).classList.remove('hidden');
+        }
 
+        function closeEditModal(id) {
+            document.getElementById('editModal' + id).classList.add('hidden');
+        }
     </script>
 
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const password = document.getElementById('password');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('text-blue-500');
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#workOrderTable').DataTable({
+                "order": [[0, "desc"]],
+                "language": {
+                    "search": "Search: (*By number or Product)",
+                    "searchPlaceholder": "Search...",
+                    "lengthMenu": "Show _MENU_ entries per page",
+                    "zeroRecords": "No matching records found",
+                    "info": "Showing page _PAGE_ of _PAGES_",
+                    "infoEmpty": "No records available",
+                    "infoFiltered": "(filtered from _MAX_ total records)",
+                },
+                "columns": [
+                    { "searchable": true }, // WO Number
+                    { "searchable": true }, // Product Name  
+                    { "searchable": false },
+                    { "searchable": false },
+                    { "searchable": false },
+                    { "searchable": false },
+                    { "searchable": false },
+                    { "searchable": false },
+                    { "searchable": false }
+                ]
+            });
+        });
+    </script>
+
+    <script>
+        function openEditOperatorModal(id) {
+            document.getElementById('editOperatorModal').classList.remove('hidden');
+
+            // Fetch form content using the named route
+            fetch(`{{ route('operator.edit', '') }}/${id}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('editOperatorContent').innerHTML = html;
+                });
+        }
+
+        function closeEditOperatorModal() {
+            document.getElementById('editOperatorModal').classList.add('hidden');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function (event) {
+            const operatorModal = document.getElementById('editOperatorModal');
+            if (event.target === operatorModal) {
+                closeEditOperatorModal();
+            }
+        });
+
+        function openMilestoneModal(id) {
+            document.getElementById('milestoneModal').classList.remove('hidden');
+
+            // Fetch milestone content using the named route
+            fetch(`{{ route('workorder.milestone', '') }}/${id}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('milestoneModalContent').innerHTML = html;
+                });
+        }
+
+        function closeMilestoneModal() {
+            document.getElementById('milestoneModal').classList.add('hidden');
+        }
+
+        // Add to your existing click event listener
+        document.addEventListener('click', function (event) {
+            const editModal = document.getElementById('editModal');
+            const milestoneModal = document.getElementById('milestoneModal');
+
+            if (event.target === editModal) {
+                closeEditModal();
+            }
+            if (event.target === milestoneModal) {
+                closeMilestoneModal();
+            }
+        });
+
+        function openEditModal(id) {
+            document.getElementById('editModal').classList.remove('hidden');
+
+            // Fetch form content using the named route
+            fetch(`{{ route('workorder.edit', '') }}/${id}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('editModalContent').innerHTML = html;
+                });
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function (event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                closeEditModal();
+            }
+        });
+
+        function handleStatusChange() {
+            document.getElementById('filterForm').submit();
+        }
+
+        function exportFilteredPdf() {
+            const status = document.getElementById('status-filter')?.value;
+            const assigned = document.getElementById('assigned-filter')?.value || 'All';
+            window.location.href = `{{ route('workorder.exportPdf') }}?status=${status}&assigned=${assigned}`;
+
+        }
+    </script>
 </head>
 
 <body class="bg-gray-100">
@@ -104,7 +234,6 @@
                 @yield('content')
             </main>
         </div>
-    </div>
 </body>
 
 </html>

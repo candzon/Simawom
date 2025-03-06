@@ -14,7 +14,6 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'opd_id',
         'is_active',
     ];
 
@@ -22,14 +21,15 @@ class User extends Authenticatable
         'password',
     ];
 
-    // Relationships
-    public function createdRapats()
+    public function isManager()
     {
-        return $this->hasMany(Rapat::class, 'created_by');
+        return $this->role === 'manager';
     }
 
-    public function notulens()
+    public static function getOperators()
     {
-        return $this->hasMany(Notulen::class, 'notulis_id');
+        return static::select('id', 'name', 'email', 'is_active', 'created_at')
+            ->where('role', 'operator')
+            ->get();
     }
 }

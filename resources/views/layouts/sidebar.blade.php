@@ -37,24 +37,27 @@
                  x-transition:leave-start="transform opacity-100 translate-y-0"
                  x-transition:leave-end="transform opacity-0 -translate-y-2"
                  class="space-y-1">
-                <a href="" 
-                   class="flex items-center px-8 py-2 hover:bg-blue-300 transition-colors duration-200 {{ request()->routeIs('rapat.index') ? 'bg-blue-300' : '' }}">
+                <a href="{{ route('workorder.index') }}" 
+                   class="flex items-center px-8 py-2 hover:bg-blue-300 transition-colors duration-200 {{ request()->routeIs('workorder.index') ? 'bg-blue-300' : '' }}">
                     <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                     </svg>
                     List WO
                 </a>
-                <a href="" 
-                   class="flex items-center px-8 py-2 hover:bg-blue-300 transition-colors duration-200 {{ request()->routeIs('rapat.create') ? 'bg-blue-300' : '' }}">
+                @if (auth()->user()->role === 'manager')
+                <a href="{{ route('workorder.create') }}" 
+                   class="flex items-center px-8 py-2 hover:bg-blue-300 transition-colors duration-200 {{ request()->routeIs('workorder.create') ? 'bg-blue-300' : '' }}">
                     <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                     New WO
                 </a>
+                @endif
             </div>
         </div>
 
          <!-- Manajemen Operator -->
+        @if(auth()->user()->role == 'manager')
          <div x-data="{ open: false }" class="mt-4">
             <button @click="open = !open" 
                     class="w-full px-4 py-2 flex items-center justify-between hover:bg-blue-300 transition-colors duration-150">
@@ -78,15 +81,15 @@
                  x-transition:leave-start="transform opacity-100 translate-y-0"
                  x-transition:leave-end="transform opacity-0 -translate-y-2"
                  class="space-y-1">
-                <a href="" 
-                   class="flex items-center px-8 py-2 hover:bg-blue-300 transition-colors duration-200 {{ request()->routeIs('') ? 'bg-blue-300' : '' }}">
+                <a href="{{ route('operator.index') }}" 
+                   class="flex items-center px-8 py-2 hover:bg-blue-300 transition-colors duration-200 {{ request()->routeIs('operator.index') ? 'bg-blue-300' : '' }}">
                     <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                     </svg>
                     List Operator
                 </a>
-                <a href="" 
-                   class="flex items-center px-8 py-2 hover:bg-blue-300 transition-colors duration-200 {{ request()->routeIs('') ? 'bg-blue-300' : '' }}">
+                <a href="{{ route('operator.create') }}" 
+                   class="flex items-center px-8 py-2 hover:bg-blue-300 transition-colors duration-200 {{ request()->routeIs('operator.create') ? 'bg-blue-300' : '' }}">
                     <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
@@ -94,6 +97,7 @@
                 </a>
             </div>
         </div>
+        @endif
 
         <!-- Logout Sidebar -->
         <form method="POST" action="{{ route('logout') }}" class="mt-8">
