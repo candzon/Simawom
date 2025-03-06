@@ -16,7 +16,7 @@ Simawom adalah proyek yang memerlukan beberapa langkah instalasi dan konfigurasi
     Clone repositori GitHub menggunakan perintah berikut:
 
     ```bash
-    git clone [https://github.com/candzon/Simawom.git](https://github.com/candzon/Simawom.git)
+    git clone https://github.com/candzon/Simawom.git
     ```
 
 2.  **Konfigurasi .env:**
@@ -67,6 +67,22 @@ Berikut adalah informasi login untuk berbagai peran:
 * **Operator:**
     * Email: `fahri@gmail.com`
     * Password: `12345678`
+
+## Screenshot UI
+
+Berikut adalah beberapa screenshot UI dari aplikasi Simawom:
+
+### Login Page
+
+<img alt="Login Page" src="https://github.com/candzon/Simawom/blob/main/public/image/login.png?raw=true" width="50%">
+
+### Dashboard Page
+
+<img alt="Dashboard Page" src="https://github.com/candzon/Simawom/blob/main/public/image/dashboard.png?raw=true" width="50%">
+
+### Manajemen WorkOrder Page
+
+<img alt="Manajemen WorkOrder Page" src="https://github.com/candzon/Simawom/blob/main/public/image/manajemen-wo.png?raw=true" width="50%">
 
 ## Selamat Menggunakan Simawom!
 
