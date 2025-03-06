@@ -16,7 +16,7 @@ Simawom adalah proyek yang memerlukan beberapa langkah instalasi dan konfigurasi
     Clone repositori GitHub menggunakan perintah berikut:
 
     ```bash
-    git clone [https://github.com/candzon/Simawom.git](https://github.com/candzon/Simawom.git)
+    git clone https://github.com/candzon/Simawom.git
     ```
 
 2.  **Konfigurasi .env:**
